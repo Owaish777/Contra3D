@@ -5,23 +5,29 @@ using UnityEngine.Tilemaps;
 
 public abstract class MachineEnemy : Enemy
 {
+    //Fire rate of the gun
     public float fireRate = 3f;
+    //Reload time of the gun
     public float reloadTime = 2f;
+    //Total bullets in a set
     public int bulletCount = 5;
+    //Reference to the particles
     public ParticleSystem[] particles;
     //public AudioSource audioSource;
 
     
 
 
-
+    
     float timePassed = 0f;
     float time = 0f;
     int count;
 
-
+    //As the class is abstract , the start fucntion will not work
+    //initializeMachine() which initializes the machineEnemy and its parent enemy
     protected void initializeMachine()
     {
+        //Parent initialization
         initializeEnemy();
         count = bulletCount;
     }
@@ -29,9 +35,13 @@ public abstract class MachineEnemy : Enemy
 
     private void Update()
     {
+        //if attack mode is true
         if (attackMode)
         {
+            //take aim
             aim();
+
+            //Mechanism for calling the fire()
             timePassed += Time.deltaTime;
 
             if (timePassed > reloadTime)
@@ -53,13 +63,14 @@ public abstract class MachineEnemy : Enemy
 
                 }
             }
+            //
 
         }
     }
 
 
 
-
+    //At the time of death emit the particles
     protected override void destroyEffects()
     {
         for(int i=0;i < particles.Length;i++)
@@ -68,7 +79,7 @@ public abstract class MachineEnemy : Enemy
         }
     }
 
-
+    //Handles damage
     private void OnCollisionEnter(Collision collision)
     {
 
@@ -83,6 +94,7 @@ public abstract class MachineEnemy : Enemy
         }
     }
 
+    //position the bullet to the correct position 
     protected void loadBullet(Vector3 pos , Vector3 dir)
     {
         GameObject obj = Instantiate(bullet, new Vector3(0, 0, 0), Quaternion.identity);
@@ -91,8 +103,10 @@ public abstract class MachineEnemy : Enemy
         //audioSource.Play();
     }
 
-
+    //If a enemy needs its own special effect , must be overridden by its childs
     protected abstract void extraEffects();
+    //Aims the machine toward the palyer , must be overridden by its childs
     protected abstract void aim();
+    //Fires the bullet , must be overridden by its childs
     protected abstract void fire();
 }

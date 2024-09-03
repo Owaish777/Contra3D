@@ -2,23 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TankController : MonoBehaviour
+public class TankController : MachineEnemy
 {
-    public GameObject player;
-    public GameObject bullet;
     public float offset1;
     public float delay = 0.2f;
     public float timeGap = 2;
-    public float bulletSpeed = 15;
-    public int bulletCount = 3;
     public GameObject gun;
     public GameObject gun2;
     public AudioSource audioSource;
 
-
-    float timePassed = 0;
-    float time = 0;
-    float count;
 
 
     GameObject check;
@@ -36,13 +28,13 @@ public class TankController : MonoBehaviour
         upperPart = gameObject.transform.GetChild(0).GetChild(0).gameObject;
 
 
-        count = bulletCount;
+        //count = bulletCount;
     }
 
     // Update is called once per frame
     void Update()
     {
-        check.transform.LookAt(player.transform);       
+        /*check.transform.LookAt(player.transform);       
 
         currentRotation = check.transform.rotation.eulerAngles;
 
@@ -75,12 +67,12 @@ public class TankController : MonoBehaviour
                 }
             }
 
-        }
+        }*/
 
 
     }
 
-    public void setTimePassed()
+    /*public void setTimePassed()
     {
         timePassed = 0;
     }
@@ -95,5 +87,45 @@ public class TankController : MonoBehaviour
         obj2.transform.position = gun2.transform.position + offset1 * gun.transform.forward;
         obj2.transform.GetChild(0).gameObject.GetComponent<Bullet>().direction = gun.transform.forward * bulletSpeed;
         audioSource.Play();
+    }*/
+
+
+
+
+    protected override void aim()
+    {
+        check.transform.LookAt(player.transform);
+
+        //currentRotation = check.transform.rotation.eulerAngles;
+
+
+        //if (currentRotation.x > 180) currentRotation.x -= 360;
+
+
+
+        //if (currentRotation.x >= minRotationX && currentRotation.x <= maxRotationX &&
+        //    currentRotation.y >= minRotationY + 180 && currentRotation.y <= maxRotationY + 180)
+        //{
+            gun.transform.LookAt(player.transform);
+        //}
+    }
+
+    protected override void fire()
+    {
+        //loadBullet(gun.transform.position + gun.transform.forward * offset, gun.transform.forward * bulletSpeed);
+    }
+
+    protected override void extraEffects()
+    {
+
+    }
+
+    protected override void activateMachine()
+    {
+        ////animator.SetTrigger("Out");
+    }
+    protected override void deactivateMachine()
+    {
+        //animator.SetTrigger("In");
     }
 }

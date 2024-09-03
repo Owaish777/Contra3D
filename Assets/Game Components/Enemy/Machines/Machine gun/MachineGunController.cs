@@ -5,15 +5,15 @@ using UnityEngine;
 
 public class MachineGunController : MachineEnemy
 {
-    float minRotationX = -50f;
-    float maxRotationX = 50f;
-    float minRotationY = -50f;
-    float maxRotationY = 50f;
+    //To bound the gun's view
+    [SerializeField] float minRotationX = -50f;
+    [SerializeField] float maxRotationX = 50f;
+    [SerializeField] float minRotationY = -50f;
+    [SerializeField] float maxRotationY = 50f;
 
 
     GameObject gun;
     GameObject check;
-    float offset = 1f;
 
 
     Vector3 currentRotation = Vector3.zero;
@@ -25,7 +25,7 @@ public class MachineGunController : MachineEnemy
     {
         initializeMachine();
 
-        gun = gameObject.transform.GetChild(0).GetChild(1).gameObject;
+        gun = gameObject.transform.GetChild(0).GetChild(1).GetChild(0).GetChild(0).gameObject;
         check = gameObject.transform.GetChild(0).GetChild(1).GetChild(1).gameObject;
         animator = GetComponent<Animator>();
     }
@@ -50,7 +50,7 @@ public class MachineGunController : MachineEnemy
 
     protected override void fire()
     {
-        loadBullet(gun.transform.position + gun.transform.forward * offset , gun.transform.forward * bulletSpeed);
+        loadBullet(gun.transform.position , gun.transform.forward * bulletSpeed);
     }
 
     protected override void extraEffects()
