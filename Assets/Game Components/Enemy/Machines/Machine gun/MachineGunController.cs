@@ -12,20 +12,25 @@ public class MachineGunController : MachineEnemy
     [SerializeField] float maxRotationY = 50f;
 
 
-    GameObject gun;
+    GameObject gun , muzzle;
+
     GameObject check;
 
 
     Vector3 currentRotation = Vector3.zero;
     Animator animator;
 
+    bool inView = false;
     
 
     void Start()
     {
+        //Initializes its parent
         initializeMachine();
 
-        gun = gameObject.transform.GetChild(0).GetChild(1).GetChild(0).GetChild(0).gameObject;
+        
+        muzzle = gameObject.transform.GetChild(0).GetChild(1).GetChild(0).GetChild(0).gameObject;
+        gun = gameObject.transform.GetChild(0).GetChild(1).gameObject;
         check = gameObject.transform.GetChild(0).GetChild(1).GetChild(1).gameObject;
         animator = GetComponent<Animator>();
     }
@@ -35,22 +40,24 @@ public class MachineGunController : MachineEnemy
         check.transform.LookAt(player.transform);
 
         currentRotation = check.transform.rotation.eulerAngles;
-
-
         if (currentRotation.x > 180) currentRotation.x -= 360;
 
 
-
+        //If player is in view
         if (currentRotation.x >= minRotationX && currentRotation.x <= maxRotationX &&
             currentRotation.y >= minRotationY + 180 && currentRotation.y <= maxRotationY + 180)
         {
-            gun.transform.LookAt(player.transform);
+            inView = true;
         }
+        else inView = false;
+
+
+        if(inView) gun.transform.LookAt(player.transform);
     }
 
     protected override void fire()
     {
-        loadBullet(gun.transform.position , gun.transform.forward * bulletSpeed);
+        if (inView) loadBullet(muzzle.transform.position, gun.transform.forward * bulletSpeed);
     }
 
     protected override void extraEffects()

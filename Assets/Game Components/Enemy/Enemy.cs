@@ -18,7 +18,7 @@ public abstract class Enemy : MonoBehaviour
     protected bool attackMode = false;
 
 
-    protected static float bulletSpeed = 5;
+    protected static float bulletSpeed = 20;
 
     //Reference of the Bullet prefab
     protected GameObject bullet;
