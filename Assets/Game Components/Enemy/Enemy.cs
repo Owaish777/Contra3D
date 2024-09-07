@@ -65,11 +65,39 @@ public abstract class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
+    //position the bullet to the correct position 
+    protected void loadBullet(Vector3 pos, Vector3 dir)
+    {
+        GameObject obj = Instantiate(bullet, new Vector3(0, 0, 0), Quaternion.identity);
+        obj.transform.position = pos;
+        obj.transform.GetChild(0).gameObject.GetComponent<Bullet>().direction = dir;
+        //audioSource.Play();
+    }
+
+    //Handles damage
+    private void OnCollisionEnter(Collision collision)
+    {
+
+        if (collision.gameObject.tag == "Bullet")
+        {
+            health -= 1;
+            if (health < 0)
+            {
+                handleDeath();
+            }
+
+        }
+    }
+
     //Effect on destruction of enemy , must be overridden by its childs
     protected abstract void destroyEffects();
     //when player enters in the range, must be overridden by its childs
     protected abstract void activateMachine();
     //when player exits the range, must be overridden by its childs
     protected abstract void deactivateMachine();
+    //Aims the machine toward the palyer , must be overridden by its childs
+    protected abstract void aim();
+    //Fires the bullet , must be overridden by its childs
+    protected abstract void fire();
 
 }

@@ -63,7 +63,6 @@ public abstract class MachineEnemy : Enemy
 
                 }
             }
-            //
 
         }
     }
@@ -79,34 +78,10 @@ public abstract class MachineEnemy : Enemy
         }
     }
 
-    //Handles damage
-    private void OnCollisionEnter(Collision collision)
-    {
-
-        if (collision.gameObject.tag == "Bullet")
-        {
-            health -= 1;
-            if (health < 0)
-            {
-                handleDeath();
-            }
-
-        }
-    }
-
-    //position the bullet to the correct position 
-    protected void loadBullet(Vector3 pos , Vector3 dir)
-    {
-        GameObject obj = Instantiate(bullet, new Vector3(0, 0, 0), Quaternion.identity);
-        obj.transform.position = pos;
-        obj.transform.GetChild(0).gameObject.GetComponent<Bullet>().direction = dir;
-        //audioSource.Play();
-    }
 
     //If a enemy needs its own special effect , must be overridden by its childs
     protected abstract void extraEffects();
-    //Aims the machine toward the palyer , must be overridden by its childs
-    protected abstract void aim();
-    //Fires the bullet , must be overridden by its childs
-    protected abstract void fire();
+
 }
+
+
